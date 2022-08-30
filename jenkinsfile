@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    environment{
+        name = 'vinay'
+    }
+    parameters {
+       string(name:'person', defaultValue:'Priyanka Arya', description:"who am i ?")
+       booleanParam(name:'is male ', defaultValue:'true', description:"")
+       choice (name:'City', choices: ['jaipur','Berinag','haldwani'], description:"")
+    }
+    stages {
+        stage('stage 1') {
+             environment
+             {
+        username = 'kumar'
+             }
+            steps {
+                echo "${BUILD_ID}"
+                echo "${username}" 
+            }
+        }
+        stage('stage 2') {
+            steps {
+               echo "Hello World stage 2" 
+               echo "${name}"
+            }
+        }
+        stage('parameter 3') {
+            steps {
+               echo "Hello World stage 2" 
+               echo "${name}"
+               sh 'echo "${person}"'
+            }
+        }
+        stage('continue') {
+            input {
+                message "do you want continue this"
+                ok "please continue this"
+            }
+            steps {
+               echo "Hello World stage 3" 
+               
+            }
+        }
+        
+    }
+    post { 
+        always { 
+            echo 'I will always say Hello again!'
+        }
+        failure {
+            echo 'failure'
+        } 
+        success {
+            echo 'success'
+        }
+    }
+}
